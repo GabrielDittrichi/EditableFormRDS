@@ -47,10 +47,16 @@
       "namedRegex": "^/admin(?:/)?$"
     },
     {
-      "page": "/view",
-      "regex": "^/view(?:/)?$",
+      "page": "/api/submit",
+      "regex": "^/api/submit(?:/)?$",
       "routeKeys": {},
-      "namedRegex": "^/view(?:/)?$"
+      "namedRegex": "^/api/submit(?:/)?$"
+    },
+    {
+      "page": "/api/upload",
+      "regex": "^/api/upload(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/upload(?:/)?$"
     }
   ],
   "dataRoutes": [],

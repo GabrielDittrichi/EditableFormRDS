@@ -4,7 +4,7 @@ import React from 'react';
 import { FormField } from '@/types/form';
 import { useFormBuilder } from '@/context/FormBuilderContext';
 import { Card, Input, Label, Button } from '@/components/ui/basics';
-import { Trash2, ArrowUp, ArrowDown, Plus, X } from 'lucide-react';
+import { Trash2, ArrowUp, ArrowDown, Plus, X, CheckSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface FieldEditorProps {

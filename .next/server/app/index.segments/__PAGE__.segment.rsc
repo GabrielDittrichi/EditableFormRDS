@@ -1,6 +1,9 @@
 1:"$Sreact.fragment"
-2:I[22016,["/_next/static/chunks/627421b3ef44bcc4.js","/_next/static/chunks/7c92e96509cd355e.js"],""]
-3:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"buildId":"pKNhOaAg0EpxwdFiJ9_MZ","rsc":["$","$1","c",{"children":[["$","main",null,{"className":"flex min-h-screen flex-col items-center justify-center p-24 bg-slate-50","children":[["$","h1",null,{"className":"text-4xl font-bold mb-8 text-slate-900","children":"Gerador de Formulários"}],["$","div",null,{"className":"flex gap-4","children":[["$","$L2",null,{"href":"/admin","children":["$","button",null,{"className":"inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 h-12 text-lg","children":"Criar/Editar Formulário (Admin)"}]}],["$","$L2",null,{"href":"/view","children":["$","button",null,{"className":"inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none bg-slate-100 text-slate-900 hover:bg-slate-200 px-4 py-2 h-12 text-lg","children":"Visualizar Formulário (Usuário)"}]}]]}]]}],[["$","script","script-0",{"src":"/_next/static/chunks/7c92e96509cd355e.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
-5:null
+2:I[47257,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"ClientPageRoot"]
+3:I[52683,["/_next/static/chunks/c61c09249d9a91c9.js","/_next/static/chunks/83bb0beee3e0880a.js","/_next/static/chunks/83f134b3bc472da0.js"],"default"]
+6:I[97367,["/_next/static/chunks/ff1a16fafef87110.js","/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
+7:"$Sreact.suspense"
+0:{"buildId":"NI8YnNs1EmVqnYV4jg9Xv","rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/_next/static/chunks/83bb0beee3e0880a.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/83f134b3bc472da0.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"loading":null,"isPartial":false}
+4:{}
+5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
+8:null
