@@ -684,6 +684,8 @@ function FormRenderer({ schema, preview = false }) {
     const [currentStep, setCurrentStep] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [answers, setAnswers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({});
     const [direction, setDirection] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [hasStarted, setHasStarted] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(!schema.welcomeScreen?.enabled);
+    const [isSubmitting, setIsSubmitting] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     // Reset step when schema changes (important for builder preview)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "FormRenderer.useEffect": ()=>{
@@ -692,12 +694,15 @@ function FormRenderer({ schema, preview = false }) {
                 if (currentStep >= schema.fields.length && schema.fields.length > 0) {
                     setCurrentStep(schema.fields.length - 1);
                 }
+                // Update hasStarted if welcomeScreen config changes during preview
+                setHasStarted(!schema.welcomeScreen?.enabled);
             }
         }
     }["FormRenderer.useEffect"], [
         schema.fields.length,
         preview,
-        currentStep
+        currentStep,
+        schema.welcomeScreen?.enabled
     ]);
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -752,13 +757,98 @@ function FormRenderer({ schema, preview = false }) {
             children: "O formulário está vazio."
         }, void 0, false, {
             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-            lineNumber: 82,
+            lineNumber: 87,
             columnNumber: 7
         }, this);
     }
     const currentField = schema.fields[currentStep];
     const isLastStep = currentStep === schema.fields.length - 1;
     const progress = (currentStep + 1) / schema.fields.length * 100;
+    if (schema.welcomeScreen?.enabled && !hasStarted) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "w-full max-w-2xl mx-auto p-4 sm:p-8 flex flex-col items-center justify-center min-h-[400px] sm:min-h-[600px] text-center",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].div, {
+                initial: {
+                    opacity: 0,
+                    y: 20
+                },
+                animate: {
+                    opacity: 1,
+                    y: 0
+                },
+                className: "space-y-8 w-full",
+                children: [
+                    schema.welcomeScreen.imageUrl && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                        src: schema.welcomeScreen.imageUrl,
+                        alt: "Welcome",
+                        className: "w-full max-w-md mx-auto h-auto rounded-2xl object-cover mb-8",
+                        onError: (e)=>{
+                            // Esconder imagem se a URL for inválida
+                            e.target.style.display = 'none';
+                        }
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                        lineNumber: 106,
+                        columnNumber: 13
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "space-y-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
+                                className: "text-4xl sm:text-5xl font-black text-gray-900 tracking-tight leading-tight",
+                                children: schema.welcomeScreen.title || schema.title
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                                lineNumber: 118,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-xl sm:text-2xl text-gray-500 leading-relaxed max-w-xl mx-auto",
+                                children: schema.welcomeScreen.description || schema.description
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                                lineNumber: 121,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                        lineNumber: 117,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                        onClick: ()=>setHasStarted(true),
+                        size: "lg",
+                        className: "rounded-full px-8 sm:px-12 py-6 text-xl shadow-2xl shadow-black/20 hover:shadow-black/30 transition-all bg-black text-white hover:bg-gray-800",
+                        children: [
+                            schema.welcomeScreen.buttonText || 'Começar',
+                            " ",
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$arrow$2d$right$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__ArrowRight$3e$__["ArrowRight"], {
+                                size: 24,
+                                className: "ml-3"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                                lineNumber: 131,
+                                columnNumber: 60
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                        lineNumber: 126,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+                lineNumber: 100,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/src/components/renderer/FormRenderer.tsx",
+            lineNumber: 99,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "w-full max-w-2xl mx-auto p-4 sm:p-8 flex flex-col h-full min-h-[400px]",
         children: [
@@ -777,12 +867,12 @@ function FormRenderer({ schema, preview = false }) {
                     }
                 }, void 0, false, {
                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                    lineNumber: 96,
+                    lineNumber: 142,
                     columnNumber: 13
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                lineNumber: 95,
+                lineNumber: 141,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -801,7 +891,7 @@ function FormRenderer({ schema, preview = false }) {
                             children: schema.title
                         }, void 0, false, {
                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                            lineNumber: 107,
+                            lineNumber: 153,
                             columnNumber: 17
                         }, this),
                         schema.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -809,18 +899,18 @@ function FormRenderer({ schema, preview = false }) {
                             children: schema.description
                         }, void 0, false, {
                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                            lineNumber: 109,
+                            lineNumber: 155,
                             columnNumber: 17
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                    lineNumber: 106,
+                    lineNumber: 152,
                     columnNumber: 13
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                lineNumber: 104,
+                lineNumber: 150,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -862,13 +952,13 @@ function FormRenderer({ schema, preview = false }) {
                                                     className: "inline ml-0.5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                    lineNumber: 133,
+                                                    lineNumber: 179,
                                                     columnNumber: 38
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                            lineNumber: 132,
+                                            lineNumber: 178,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -884,13 +974,13 @@ function FormRenderer({ schema, preview = false }) {
                                                             children: "*"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 138,
+                                                            lineNumber: 184,
                                                             columnNumber: 47
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                    lineNumber: 136,
+                                                    lineNumber: 182,
                                                     columnNumber: 19
                                                 }, this),
                                                 currentField.helpText && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -898,7 +988,7 @@ function FormRenderer({ schema, preview = false }) {
                                                     children: currentField.helpText
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                    lineNumber: 142,
+                                                    lineNumber: 188,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -921,7 +1011,7 @@ function FormRenderer({ schema, preview = false }) {
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 147,
+                                                            lineNumber: 193,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'email' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -942,7 +1032,7 @@ function FormRenderer({ schema, preview = false }) {
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 166,
+                                                            lineNumber: 212,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'number' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -963,7 +1053,7 @@ function FormRenderer({ schema, preview = false }) {
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 186,
+                                                            lineNumber: 232,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'date' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -977,7 +1067,7 @@ function FormRenderer({ schema, preview = false }) {
                                                             onChange: (e)=>handleAnswer(e.target.value)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 206,
+                                                            lineNumber: 252,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'textarea' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
@@ -991,7 +1081,7 @@ function FormRenderer({ schema, preview = false }) {
                                                             onChange: (e)=>handleAnswer(e.target.value)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 219,
+                                                            lineNumber: 265,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'select' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -1008,7 +1098,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                     children: "Selecione uma opção..."
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                    lineNumber: 241,
+                                                                    lineNumber: 287,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 currentField.options?.map((opt, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -1020,13 +1110,13 @@ function FormRenderer({ schema, preview = false }) {
                                                                         ]
                                                                     }, idx, true, {
                                                                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                        lineNumber: 243,
+                                                                        lineNumber: 289,
                                                                         columnNumber: 25
                                                                     }, this))
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 232,
+                                                            lineNumber: 278,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'radio' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1039,7 +1129,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             children: String.fromCharCode(65 + idx)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 252,
+                                                                            lineNumber: 298,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1058,7 +1148,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             }
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 255,
+                                                                            lineNumber: 301,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1066,7 +1156,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             children: opt.label
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 270,
+                                                                            lineNumber: 316,
                                                                             columnNumber: 27
                                                                         }, this),
                                                                         answers[currentField.id] === opt.value && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1075,23 +1165,23 @@ function FormRenderer({ schema, preview = false }) {
                                                                                 size: 24
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                                lineNumber: 273,
+                                                                                lineNumber: 319,
                                                                                 columnNumber: 32
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 272,
+                                                                            lineNumber: 318,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, idx, true, {
                                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                    lineNumber: 251,
+                                                                    lineNumber: 297,
                                                                     columnNumber: 25
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 249,
+                                                            lineNumber: 295,
                                                             columnNumber: 21
                                                         }, this),
                                                         currentField.type === 'checkbox' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1107,7 +1197,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             children: String.fromCharCode(65 + idx)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 289,
+                                                                            lineNumber: 335,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1128,7 +1218,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             }
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 292,
+                                                                            lineNumber: 338,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1136,7 +1226,7 @@ function FormRenderer({ schema, preview = false }) {
                                                                             children: opt.label
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 308,
+                                                                            lineNumber: 354,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         isChecked && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1145,57 +1235,57 @@ function FormRenderer({ schema, preview = false }) {
                                                                                 size: 24
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                                lineNumber: 311,
+                                                                                lineNumber: 357,
                                                                                 columnNumber: 40
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                            lineNumber: 310,
+                                                                            lineNumber: 356,
                                                                             columnNumber: 37
                                                                         }, this)
                                                                     ]
                                                                 }, idx, true, {
                                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                                    lineNumber: 288,
+                                                                    lineNumber: 334,
                                                                     columnNumber: 29
                                                                 }, this);
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                            lineNumber: 282,
+                                                            lineNumber: 328,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                                    lineNumber: 145,
+                                                    lineNumber: 191,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                            lineNumber: 135,
+                                            lineNumber: 181,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                    lineNumber: 131,
+                                    lineNumber: 177,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                lineNumber: 130,
+                                lineNumber: 176,
                                 columnNumber: 13
                             }, this)
                         }, currentField.id, false, {
                             fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                            lineNumber: 117,
+                            lineNumber: 163,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                        lineNumber: 116,
+                        lineNumber: 162,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1212,14 +1302,14 @@ function FormRenderer({ schema, preview = false }) {
                                         className: "mr-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 380,
                                         columnNumber: 21
                                     }, this),
                                     " Anterior"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                lineNumber: 328,
+                                lineNumber: 374,
                                 columnNumber: 18
                             }, this),
                             isLastStep ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1233,13 +1323,13 @@ function FormRenderer({ schema, preview = false }) {
                                         className: "ml-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                        lineNumber: 340,
+                                        lineNumber: 386,
                                         columnNumber: 30
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                lineNumber: 339,
+                                lineNumber: 385,
                                 columnNumber: 17
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                 type: "button",
@@ -1253,35 +1343,35 @@ function FormRenderer({ schema, preview = false }) {
                                         className: "ml-2"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                        lineNumber: 349,
+                                        lineNumber: 395,
                                         columnNumber: 29
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                                lineNumber: 343,
+                                lineNumber: 389,
                                 columnNumber: 17
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                        lineNumber: 326,
+                        lineNumber: 372,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-                lineNumber: 115,
+                lineNumber: 161,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/renderer/FormRenderer.tsx",
-        lineNumber: 93,
+        lineNumber: 139,
         columnNumber: 5
     }, this);
 }
-_s(FormRenderer, "Jv5nlPCFZeTteOfFLNKZR/dP508=");
+_s(FormRenderer, "q09Yujt4Y+6SNcJbVRPU01R3pbU=");
 _c = FormRenderer;
 var _c;
 __turbopack_context__.k.register(_c, "FormRenderer");
@@ -1323,7 +1413,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 function AdminPage() {
     _s();
-    const { schema, updateFormMetadata } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormBuilderContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormBuilder"])();
+    const { schema, updateFormMetadata, updateWelcomeScreen } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormBuilderContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormBuilder"])();
     const [copied, setCopied] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useState(false);
     const copyToClipboard = ()=>{
         navigator.clipboard.writeText(JSON.stringify(schema, null, 2));
@@ -1414,7 +1504,7 @@ function AdminPage() {
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/view",
+                                href: "/",
                                 target: "_blank",
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                     variant: "primary",
@@ -1482,30 +1572,220 @@ function AdminPage() {
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "mt-4 pt-4 border-t border-gray-100",
+                                        className: "mt-8 pt-8 border-t border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-8",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                    className: "text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block",
+                                                    children: "Redirecionamento ao Concluir"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/page.tsx",
+                                                    lineNumber: 66,
+                                                    columnNumber: 25
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                    value: schema.redirectUrl || '',
+                                                    onChange: (e)=>updateFormMetadata(schema.title, schema.description || '', e.target.value),
+                                                    className: "text-sm bg-white border border-gray-200 rounded-lg px-3 py-2 w-full focus:bg-white transition-colors",
+                                                    placeholder: "https://exemplo.com/sucesso"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/admin/page.tsx",
+                                                    lineNumber: 67,
+                                                    columnNumber: 25
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/admin/page.tsx",
+                                            lineNumber: 65,
+                                            columnNumber: 21
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/admin/page.tsx",
+                                        lineNumber: 63,
+                                        columnNumber: 17
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "mt-8 pt-8 border-t border-gray-100",
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                                className: "text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block",
-                                                children: "Redirecionamento ao Concluir"
-                                            }, void 0, false, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "flex items-center justify-between mb-4",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "text-sm font-bold text-gray-900 uppercase tracking-wider",
+                                                        children: "Tela de Boas-Vindas"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                        lineNumber: 79,
+                                                        columnNumber: 25
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                        className: "relative inline-flex items-center cursor-pointer",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "checkbox",
+                                                                className: "sr-only peer",
+                                                                checked: schema.welcomeScreen?.enabled || false,
+                                                                onChange: (e)=>updateWelcomeScreen({
+                                                                        enabled: e.target.checked
+                                                                    })
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 81,
+                                                                columnNumber: 29
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 87,
+                                                                columnNumber: 29
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                        lineNumber: 80,
+                                                        columnNumber: 25
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/page.tsx",
-                                                lineNumber: 62,
+                                                lineNumber: 78,
                                                 columnNumber: 21
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                value: schema.redirectUrl || '',
-                                                onChange: (e)=>updateFormMetadata(schema.title, schema.description || '', e.target.value),
-                                                className: "text-sm bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 w-full max-w-md focus:bg-white transition-colors",
-                                                placeholder: "https://exemplo.com/sucesso (Opcional)"
-                                            }, void 0, false, {
+                                            schema.welcomeScreen?.enabled && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "space-y-4 bg-gray-50 p-6 rounded-2xl border border-gray-100",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                className: "text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block",
+                                                                children: "Título"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 94,
+                                                                columnNumber: 33
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                value: schema.welcomeScreen.title || '',
+                                                                onChange: (e)=>updateWelcomeScreen({
+                                                                        title: e.target.value
+                                                                    }),
+                                                                className: "bg-white",
+                                                                placeholder: "Bem-vindo!"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 95,
+                                                                columnNumber: 33
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                        lineNumber: 93,
+                                                        columnNumber: 29
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                className: "text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block",
+                                                                children: "Descrição / Contexto"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 103,
+                                                                columnNumber: 33
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("textarea", {
+                                                                value: schema.welcomeScreen.description || '',
+                                                                onChange: (e)=>updateWelcomeScreen({
+                                                                        description: e.target.value
+                                                                    }),
+                                                                className: "w-full min-h-[100px] p-3 rounded-lg border border-gray-200 bg-white text-sm focus:outline-none focus:border-black resize-none",
+                                                                placeholder: "Explique sobre o que é este formulário..."
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 104,
+                                                                columnNumber: 33
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                        lineNumber: 102,
+                                                        columnNumber: 29
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "grid grid-cols-2 gap-4",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block",
+                                                                        children: "Texto do Botão"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                                        lineNumber: 113,
+                                                                        columnNumber: 37
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        value: schema.welcomeScreen.buttonText || '',
+                                                                        onChange: (e)=>updateWelcomeScreen({
+                                                                                buttonText: e.target.value
+                                                                            }),
+                                                                        className: "bg-white",
+                                                                        placeholder: "Começar"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                                        lineNumber: 114,
+                                                                        columnNumber: 37
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 112,
+                                                                columnNumber: 33
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                                                        className: "text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block",
+                                                                        children: "URL da Imagem (Opcional)"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                                        lineNumber: 122,
+                                                                        columnNumber: 37
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$basics$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                        value: schema.welcomeScreen.imageUrl || '',
+                                                                        onChange: (e)=>updateWelcomeScreen({
+                                                                                imageUrl: e.target.value
+                                                                            }),
+                                                                        className: "bg-white",
+                                                                        placeholder: "https://exemplo.com/imagem.png"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                                        lineNumber: 123,
+                                                                        columnNumber: 37
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/admin/page.tsx",
+                                                                lineNumber: 121,
+                                                                columnNumber: 33
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/admin/page.tsx",
+                                                        lineNumber: 111,
+                                                        columnNumber: 29
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/page.tsx",
-                                                lineNumber: 63,
-                                                columnNumber: 21
+                                                lineNumber: 92,
+                                                columnNumber: 25
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/page.tsx",
-                                        lineNumber: 61,
+                                        lineNumber: 77,
                                         columnNumber: 17
                                     }, this)
                                 ]
@@ -1525,12 +1805,12 @@ function AdminPage() {
                                                 isLast: index === schema.fields.length - 1
                                             }, field.id, false, {
                                                 fileName: "[project]/src/app/admin/page.tsx",
-                                                lineNumber: 75,
+                                                lineNumber: 139,
                                                 columnNumber: 20
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/page.tsx",
-                                        lineNumber: 73,
+                                        lineNumber: 137,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1538,13 +1818,13 @@ function AdminPage() {
                                         children: "Adicione campos usando a barra lateral"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/page.tsx",
-                                        lineNumber: 84,
+                                        lineNumber: 148,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/page.tsx",
-                                lineNumber: 72,
+                                lineNumber: 136,
                                 columnNumber: 14
                             }, this)
                         ]
@@ -1560,7 +1840,7 @@ function AdminPage() {
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$builder$2f$Toolbar$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Toolbar"], {}, void 0, false, {
                                     fileName: "[project]/src/app/admin/page.tsx",
-                                    lineNumber: 93,
+                                    lineNumber: 157,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1572,12 +1852,12 @@ function AdminPage() {
                                                 children: "Preview Mobile"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/page.tsx",
-                                                lineNumber: 97,
+                                                lineNumber: 161,
                                                 columnNumber: 23
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/page.tsx",
-                                            lineNumber: 96,
+                                            lineNumber: 160,
                                             columnNumber: 20
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1589,12 +1869,12 @@ function AdminPage() {
                                                         className: "w-16 h-1 bg-gray-700 rounded-full"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/page.tsx",
-                                                        lineNumber: 101,
+                                                        lineNumber: 165,
                                                         columnNumber: 26
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/page.tsx",
-                                                    lineNumber: 100,
+                                                    lineNumber: 164,
                                                     columnNumber: 23
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1604,35 +1884,35 @@ function AdminPage() {
                                                         preview: true
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/page.tsx",
-                                                        lineNumber: 104,
+                                                        lineNumber: 168,
                                                         columnNumber: 26
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/page.tsx",
-                                                    lineNumber: 103,
+                                                    lineNumber: 167,
                                                     columnNumber: 23
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/page.tsx",
-                                            lineNumber: 99,
+                                            lineNumber: 163,
                                             columnNumber: 20
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/admin/page.tsx",
-                                    lineNumber: 95,
+                                    lineNumber: 159,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/page.tsx",
-                            lineNumber: 92,
+                            lineNumber: 156,
                             columnNumber: 14
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/page.tsx",
-                        lineNumber: 91,
+                        lineNumber: 155,
                         columnNumber: 11
                     }, this)
                 ]
@@ -1648,7 +1928,7 @@ function AdminPage() {
         columnNumber: 5
     }, this);
 }
-_s(AdminPage, "W11SGk4FXjdF+pLbCxP1cgLspak=", false, function() {
+_s(AdminPage, "jzNcIcOvaou3fi+PpAi79pXrZvc=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$context$2f$FormBuilderContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFormBuilder"]
     ];

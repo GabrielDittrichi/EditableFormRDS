@@ -5,6 +5,7 @@ import { FormSchema } from '@/types/form';
 import { Input, Label, Button } from '@/components/ui/basics';
 import { ArrowRight, Check, ChevronUp, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { saveResponse } from '@/lib/responses';
 
 interface FormRendererProps {
   schema: FormSchema;
@@ -15,6 +16,8 @@ export function FormRenderer({ schema, preview = false }: FormRendererProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, any>>({});
   const [direction, setDirection] = useState(0);
+  const [hasStarted, setHasStarted] = useState(!schema.welcomeScreen?.enabled);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Reset step when schema changes (important for builder preview)
   useEffect(() => {
@@ -23,19 +26,50 @@ export function FormRenderer({ schema, preview = false }: FormRendererProps) {
         if (currentStep >= schema.fields.length && schema.fields.length > 0) {
             setCurrentStep(schema.fields.length - 1);
         }
+        // Update hasStarted if welcomeScreen config changes during preview
+        setHasStarted(!schema.welcomeScreen?.enabled);
     }
-  }, [schema.fields.length, preview, currentStep]);
+  }, [schema.fields.length, preview, currentStep, schema.welcomeScreen?.enabled]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (preview) return;
     
-    console.log('Form submitted:', answers);
+    setIsSubmitting(true);
     
+    // Get UTM source
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get('utm_source') || urlParams.get('ref') || 'direto';
+
+    // Save locally
+    saveResponse({ answers, source });
+
+    // Send email via API if configured
+    if (schema.emailConfig?.enabled && schema.emailConfig.emailFieldId) {
+        const userEmail = answers[schema.emailConfig.emailFieldId];
+        if (userEmail) {
+            try {
+                await fetch('/api/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: userEmail,
+                        subject: schema.emailConfig.subject || 'Confirmação de Resposta',
+                        body: schema.emailConfig.body || 'Obrigado por responder!',
+                        answers
+                    })
+                });
+            } catch (err) {
+                console.error('Error sending email:', err);
+            }
+        }
+    }
+
     if (schema.redirectUrl) {
         window.location.href = schema.redirectUrl;
     } else {
         alert('Formulário enviado com sucesso!');
+        setIsSubmitting(false);
     }
   };
 
@@ -88,6 +122,47 @@ export function FormRenderer({ schema, preview = false }: FormRendererProps) {
   const currentField = schema.fields[currentStep];
   const isLastStep = currentStep === schema.fields.length - 1;
   const progress = ((currentStep + 1) / schema.fields.length) * 100;
+
+  if (schema.welcomeScreen?.enabled && !hasStarted) {
+    return (
+      <div className="w-full max-w-2xl mx-auto p-4 sm:p-8 flex flex-col items-center justify-center min-h-[400px] sm:min-h-[600px] text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="space-y-8 w-full"
+        >
+          {schema.welcomeScreen.imageUrl && (
+            <img 
+              src={schema.welcomeScreen.imageUrl} 
+              alt="Welcome" 
+              className="w-full max-w-md mx-auto h-auto rounded-2xl object-cover mb-8"
+              onError={(e) => {
+                // Esconder imagem se a URL for inválida
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          )}
+          
+          <div className="space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-black text-gray-900 tracking-tight leading-tight">
+              {schema.welcomeScreen.title || schema.title}
+            </h1>
+            <p className="text-xl sm:text-2xl text-gray-500 leading-relaxed max-w-xl mx-auto">
+              {schema.welcomeScreen.description || schema.description}
+            </p>
+          </div>
+
+          <Button 
+            onClick={() => setHasStarted(true)}
+            size="lg" 
+            className="rounded-full px-8 sm:px-12 py-6 text-xl shadow-2xl shadow-black/20 hover:shadow-black/30 transition-all bg-black text-white hover:bg-gray-800"
+          >
+            {schema.welcomeScreen.buttonText || 'Começar'} <ArrowRight size={24} className="ml-3" />
+          </Button>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4 sm:p-8 flex flex-col h-full min-h-[400px]">
@@ -336,10 +411,10 @@ export function FormRenderer({ schema, preview = false }: FormRendererProps) {
             )}
             
             {isLastStep ? (
-                <Button type="submit" size="lg" className="ml-auto rounded-full px-8 text-lg shadow-xl shadow-black/20 hover:shadow-black/30 transition-all bg-black text-white hover:bg-gray-800">
-                    Concluir <Check size={20} className="ml-2" />
-                </Button>
-            ) : (
+                    <Button type="submit" disabled={isSubmitting} size="lg" className="ml-auto rounded-full px-8 text-lg shadow-xl shadow-black/20 hover:shadow-black/30 transition-all bg-black text-white hover:bg-gray-800">
+                        {isSubmitting ? 'Enviando...' : 'Concluir'} <Check size={20} className="ml-2" />
+                    </Button>
+                  ) : (
                 <Button 
                     type="button" 
                     size="lg" 

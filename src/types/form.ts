@@ -15,10 +15,27 @@ export interface FormField {
   options?: FieldOption[]; // For select, radio, checkbox
 }
 
+export interface WelcomeScreen {
+  enabled: boolean;
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+  buttonText?: string;
+}
+
+export interface EmailConfig {
+  enabled: boolean;
+  subject?: string;
+  body?: string;
+  emailFieldId?: string; // The ID of the field that contains the user's email
+}
+
 export interface FormSchema {
   id: string;
   title: string;
   description?: string;
   redirectUrl?: string;
+  welcomeScreen?: WelcomeScreen;
+  emailConfig?: EmailConfig;
   fields: FormField[];
 }

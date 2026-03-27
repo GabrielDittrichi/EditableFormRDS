@@ -18,6 +18,12 @@ const defaultSchema = {
     id: 'form-1',
     title: 'Meu Formulário Editável',
     description: 'Preencha as informações abaixo.',
+    welcomeScreen: {
+        enabled: false,
+        title: 'Bem-vindo ao nosso formulário',
+        description: 'Por favor, reserve alguns minutos para preencher as informações abaixo.',
+        buttonText: 'Começar'
+    },
     fields: []
 };
 const FormBuilderContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])(undefined);
@@ -86,11 +92,34 @@ function FormBuilderProvider({ children }) {
                     } : f)
             }));
     };
-    const updateFormMetadata = (title, description)=>{
+    const updateFormMetadata = (title, description, redirectUrl)=>{
         setSchema((prev)=>({
                 ...prev,
                 title,
-                description
+                description,
+                redirectUrl
+            }));
+    };
+    const updateWelcomeScreen = (updates)=>{
+        setSchema((prev)=>({
+                ...prev,
+                welcomeScreen: {
+                    ...prev.welcomeScreen || {
+                        enabled: false
+                    },
+                    ...updates
+                }
+            }));
+    };
+    const updateEmailConfig = (updates)=>{
+        setSchema((prev)=>({
+                ...prev,
+                emailConfig: {
+                    ...prev.emailConfig || {
+                        enabled: false
+                    },
+                    ...updates
+                }
             }));
     };
     const moveField = (id, direction)=>{
@@ -124,12 +153,14 @@ function FormBuilderProvider({ children }) {
             removeField,
             updateField,
             updateFormMetadata,
+            updateWelcomeScreen,
+            updateEmailConfig,
             moveField
         },
         children: children
     }, void 0, false, {
         fileName: "[project]/src/context/FormBuilderContext.tsx",
-        lineNumber: 104,
+        lineNumber: 133,
         columnNumber: 5
     }, this);
 }

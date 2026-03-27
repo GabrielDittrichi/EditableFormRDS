@@ -1,11 +1,11 @@
-[00:00:01.387] Server  LOG     ✓ Ready in 934ms
-[00:00:11.268] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:19.971] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:15.143] Server  LOG     ✓ Compiled in 693ms
-[00:03:24.254] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:03:27.841] Browser LOG     Form submitted: {}
-[00:03:30.088] Browser LOG     Form submitted: {}
-[00:03:36.807] Server  LOG     ✓ Compiled in 29ms
-[00:03:50.175] Server  LOG     ✓ Compiled in 60ms
-[00:04:10.581] Server  LOG     ✓ Compiled in 29ms
-[00:04:18.643] Server  LOG     ✓ Compiled in 30ms
+[00:00:01.832] Server  LOG     ✓ Ready in 1430ms
+[00:00:03.882] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:04.253] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:04.273] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:36.788] Server  LOG       Reload env: .env.local
+[00:03:35.817] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:08:10.304] Server  LOG       Reload env: .env.local
+[00:08:53.858] Server  LOG     ✓ Compiled in 4s
+[00:10:55.646] Server  LOG     ✓ Compiled in 608ms
+[00:26:44.317] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:17:20.776] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

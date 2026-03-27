@@ -9,6 +9,8 @@ interface FormBuilderContextType {
   removeField: (id: string) => void;
   updateField: (id: string, updates: Partial<FormField>) => void;
   updateFormMetadata: (title: string, description: string, redirectUrl?: string) => void;
+  updateWelcomeScreen: (updates: Partial<NonNullable<FormSchema['welcomeScreen']>>) => void;
+  updateEmailConfig: (updates: Partial<NonNullable<FormSchema['emailConfig']>>) => void;
   moveField: (id: string, direction: 'up' | 'down') => void;
 }
 
@@ -16,6 +18,12 @@ const defaultSchema: FormSchema = {
   id: 'form-1',
   title: 'Meu Formulário Editável',
   description: 'Preencha as informações abaixo.',
+  welcomeScreen: {
+    enabled: false,
+    title: 'Bem-vindo ao nosso formulário',
+    description: 'Por favor, reserve alguns minutos para preencher as informações abaixo.',
+    buttonText: 'Começar'
+  },
   fields: []
 };
 
@@ -85,6 +93,26 @@ export function FormBuilderProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  const updateWelcomeScreen = (updates: Partial<NonNullable<FormSchema['welcomeScreen']>>) => {
+    setSchema(prev => ({
+      ...prev,
+      welcomeScreen: {
+        ...(prev.welcomeScreen || { enabled: false }),
+        ...updates
+      }
+    }));
+  };
+
+  const updateEmailConfig = (updates: Partial<NonNullable<FormSchema['emailConfig']>>) => {
+    setSchema(prev => ({
+      ...prev,
+      emailConfig: {
+        ...(prev.emailConfig || { enabled: false }),
+        ...updates
+      }
+    }));
+  };
+
   const moveField = (id: string, direction: 'up' | 'down') => {
     setSchema(prev => {
       const index = prev.fields.findIndex(f => f.id === id);
@@ -102,7 +130,16 @@ export function FormBuilderProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <FormBuilderContext.Provider value={{ schema, addField, removeField, updateField, updateFormMetadata, moveField }}>
+    <FormBuilderContext.Provider value={{
+      schema,
+      addField,
+      removeField,
+      updateField,
+      updateFormMetadata,
+      updateWelcomeScreen,
+      updateEmailConfig,
+      moveField
+    }}>
       {children}
     </FormBuilderContext.Provider>
   );

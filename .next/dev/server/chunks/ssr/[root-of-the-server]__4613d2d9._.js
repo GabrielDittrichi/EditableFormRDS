@@ -23,6 +23,12 @@ const defaultSchema = {
     id: 'form-1',
     title: 'Meu Formulário Editável',
     description: 'Preencha as informações abaixo.',
+    welcomeScreen: {
+        enabled: false,
+        title: 'Bem-vindo ao nosso formulário',
+        description: 'Por favor, reserve alguns minutos para preencher as informações abaixo.',
+        buttonText: 'Começar'
+    },
     fields: []
 };
 const FormBuilderContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["createContext"])(undefined);
@@ -94,6 +100,28 @@ function FormBuilderProvider({ children }) {
                 redirectUrl
             }));
     };
+    const updateWelcomeScreen = (updates)=>{
+        setSchema((prev)=>({
+                ...prev,
+                welcomeScreen: {
+                    ...prev.welcomeScreen || {
+                        enabled: false
+                    },
+                    ...updates
+                }
+            }));
+    };
+    const updateEmailConfig = (updates)=>{
+        setSchema((prev)=>({
+                ...prev,
+                emailConfig: {
+                    ...prev.emailConfig || {
+                        enabled: false
+                    },
+                    ...updates
+                }
+            }));
+    };
     const moveField = (id, direction)=>{
         setSchema((prev)=>{
             const index = prev.fields.findIndex((f)=>f.id === id);
@@ -125,12 +153,14 @@ function FormBuilderProvider({ children }) {
             removeField,
             updateField,
             updateFormMetadata,
+            updateWelcomeScreen,
+            updateEmailConfig,
             moveField
         },
         children: children
     }, void 0, false, {
         fileName: "[project]/src/context/FormBuilderContext.tsx",
-        lineNumber: 105,
+        lineNumber: 133,
         columnNumber: 5
     }, this);
 }

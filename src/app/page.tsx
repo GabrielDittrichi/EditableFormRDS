@@ -1,18 +1,14 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/basics';
+"use client";
+
+import { useFormBuilder } from '@/context/FormBuilderContext';
+import { FormRenderer } from '@/components/renderer/FormRenderer';
 
 export default function Home() {
+  const { schema } = useFormBuilder();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-slate-50">
-      <h1 className="text-4xl font-bold mb-8 text-slate-900">Gerador de Formulários</h1>
-      <div className="flex gap-4">
-        <Link href="/admin">
-          <Button className="h-12 text-lg">Criar/Editar Formulário (Admin)</Button>
-        </Link>
-        <Link href="/view">
-          <Button variant="secondary" className="h-12 text-lg">Visualizar Formulário (Usuário)</Button>
-        </Link>
-      </div>
-    </main>
-  )
+    <div className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+      <FormRenderer schema={schema} />
+    </div>
+  );
 }
